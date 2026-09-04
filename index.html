@@ -1255,7 +1255,12 @@
     const vp = getViewport(desc);
     const size = state.canvasSize;
     const scaleX = size/(vp.xMax-vp.xMin), scaleY = size/(vp.yMax-vp.yMin);
-    const tolerance = scaleY * 1.7;
+    /* Pensado para aprender a mano, no para medir precisión de píxel:
+       un margen "de mano libre" no resta nada (el pulso de un dedo o un
+       mouse nunca va a caer exactamente sobre la línea), y más allá de
+       ese margen el puntaje baja de forma suave, no abrupta. */
+    const freehandMargin = scaleY * 0.5;
+    const tolerance = scaleY * 3;
     let totalErr=0, count=0;
     for(let px=0; px<size; px++){
       const mathX = vp.xMin + px/scaleX;
@@ -1265,8 +1270,8 @@
       count++;
       const targetPy = toPixelY(y,vp,size);
       const drawnPy = state.columnMap.get(px);
-      const err = drawnPy===undefined ? tolerance*3 : Math.abs(drawnPy-targetPy);
-      totalErr += err;
+      const rawErr = drawnPy===undefined ? tolerance*2.5 : Math.abs(drawnPy-targetPy);
+      totalErr += Math.max(0, rawErr - freehandMargin);
     }
     if(count===0) return 0;
     const avgErr = totalErr/count;
