@@ -1,0 +1,1777 @@
+<title>Grimorio de Funciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Dark palette (primary / default look of this artifact) */
+    --bg:#0a0a0a;
+    --bg-2:#131313;
+    --surface:#1a1a1a;
+    --surface-2:#232323;
+    --border:#333333;
+    --border-strong:#4d4d4d;
+    --text:#ece9f9;
+    --text-dim:#aba6d0;
+    --text-faint:#75709e;
+    --accent:#b98ee8;
+    --accent-strong:#d9b3ff;
+    --accent-2:#e8c15a;
+    --accent-2-strong:#ffd873;
+    --success:#7ad9a0;
+    --danger:#ef8c86;
+    --grid-line:rgba(230,225,255,0.07);
+    --grid-axis:rgba(230,225,255,0.28);
+    --overlay-scrim:rgba(6,7,16,0.55);
+    --shadow-glow:0 0 32px rgba(185,142,232,0.28);
+    --guild-accent:#1a1a1a;
+    --guild-accent-strong:#3d3d3d;
+    --font-display:'Cinzel', 'Georgia', serif;
+    --font-body:'Spectral', 'Iowan Old Style', Georgia, serif;
+    --font-mono:'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f3ecdc;
+      --bg-2:#ece2cb;
+      --surface:#fffbf1;
+      --surface-2:#f7efdd;
+      --border:#d9c8a0;
+      --border-strong:#b89f68;
+      --text:#2a2338;
+      --text-dim:#5b527a;
+      --text-faint:#8a7fa8;
+      --accent:#7c4dbd;
+      --accent-strong:#5e3499;
+      --accent-2:#a9750d;
+      --accent-2-strong:#8a5c07;
+      --success:#2f8f5b;
+      --danger:#b53f37;
+      --grid-line:rgba(60,45,20,0.10);
+      --grid-axis:rgba(60,45,20,0.35);
+      --overlay-scrim:rgba(60,50,30,0.35);
+      --shadow-glow:0 0 32px rgba(124,77,189,0.16);
+      --guild-accent:#e8ddc0;
+      --guild-accent-strong:#cbb98a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0a0a; --bg-2:#131313; --surface:#1a1a1a; --surface-2:#232323;
+    --border:#333333; --border-strong:#4d4d4d; --text:#ece9f9; --text-dim:#aba6d0;
+    --text-faint:#75709e; --accent:#b98ee8; --accent-strong:#d9b3ff; --accent-2:#e8c15a;
+    --accent-2-strong:#ffd873; --success:#7ad9a0; --danger:#ef8c86;
+    --grid-line:rgba(230,225,255,0.07); --grid-axis:rgba(230,225,255,0.28);
+    --overlay-scrim:rgba(6,7,16,0.55); --shadow-glow:0 0 32px rgba(185,142,232,0.28);
+    --guild-accent:#1a1a1a; --guild-accent-strong:#3d3d3d;
+  }
+  :root[data-theme="light"]{
+    --bg:#f3ecdc; --bg-2:#ece2cb; --surface:#fffbf1; --surface-2:#f7efdd;
+    --border:#d9c8a0; --border-strong:#b89f68; --text:#2a2338; --text-dim:#5b527a;
+    --text-faint:#8a7fa8; --accent:#7c4dbd; --accent-strong:#5e3499; --accent-2:#a9750d;
+    --accent-2-strong:#8a5c07; --success:#2f8f5b; --danger:#b53f37;
+    --grid-line:rgba(60,45,20,0.10); --grid-axis:rgba(60,45,20,0.35);
+    --overlay-scrim:rgba(60,50,30,0.35); --shadow-glow:0 0 32px rgba(124,77,189,0.16);
+    --guild-accent:#e8ddc0; --guild-accent-strong:#cbb98a;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{ font-family:var(--font-display); font-weight:600; letter-spacing:0.02em; text-wrap:balance; margin:0; }
+  p{ margin:0; }
+  button{ font-family:var(--font-body); }
+  ::selection{ background:var(--accent); color:var(--bg); }
+
+  .arcane-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .arcane-bg::before{
+    content:""; position:absolute; inset:-20%;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 8%, color-mix(in srgb, var(--guild-accent) 22%, transparent), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 85%, color-mix(in srgb, var(--accent-2) 10%, transparent), transparent 60%),
+      var(--bg);
+    transition:background 0.6s ease;
+  }
+  .arcane-ring{
+    position:absolute; width:min(80vh,900px); height:min(80vh,900px);
+    opacity:0.5;
+    animation:spin 220s linear infinite;
+  }
+  .arcane-ring.r2{ width:min(60vh,680px); height:min(60vh,680px); animation-duration:170s; animation-direction:reverse; opacity:0.35; }
+  @keyframes spin{ from{ transform:rotate(0deg);} to{ transform:rotate(360deg);} }
+  @media (prefers-reduced-motion:reduce){ .arcane-ring{ animation:none; } }
+
+  #app{ position:relative; z-index:1; min-height:100vh; }
+  .screen{
+    min-height:100vh; width:100%;
+    display:flex; align-items:center; justify-content:center;
+    padding:clamp(16px,4vw,48px);
+  }
+
+  .menu-card{
+    width:100%; max-width:720px;
+    background:color-mix(in srgb, var(--surface) 92%, transparent);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:clamp(24px,4vw,44px);
+    box-shadow:var(--shadow-glow), 0 20px 60px rgba(0,0,0,0.25);
+    backdrop-filter:blur(6px);
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .menu-card.narrow{ max-width:520px; }
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--accent-2); font-weight:600;
+  }
+  .title-display{ font-size:clamp(28px,5vw,42px); color:var(--text); }
+  .title-display.small{ font-size:clamp(22px,4vw,30px); }
+  .title-display .accent{ color:var(--accent-strong); }
+
+  .story-scroll{
+    display:flex; flex-direction:column; gap:14px;
+    font-size:16px; line-height:1.7; color:var(--text-dim);
+    max-height:46vh; overflow-y:auto; padding-right:6px;
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    padding-top:16px; padding-bottom:16px;
+  }
+  .story-scroll p em{ color:var(--accent-strong); font-style:italic; }
+  .story-scroll::-webkit-scrollbar{ width:8px; }
+  .story-scroll::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:8px; }
+
+  .muted{ color:var(--text-dim); font-size:15px; line-height:1.6; }
+  .muted.small{ font-size:13px; }
+
+  .menu-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:4px; }
+
+  .btn{
+    appearance:none; border:none; cursor:pointer;
+    font-size:15px; font-weight:600; letter-spacing:0.01em;
+    padding:13px 24px; border-radius:11px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    font-family:var(--font-body);
+  }
+  .btn:active{ transform:translateY(1px) scale(0.99); }
+  .btn:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color:#1a1330;
+    box-shadow:0 6px 20px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  .btn-primary:hover{ box-shadow:0 8px 26px color-mix(in srgb, var(--accent) 60%, transparent); }
+  .btn-ghost{
+    background:transparent; color:var(--text-dim);
+    border:1px solid var(--border-strong);
+  }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--accent); }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  #form-name{ display:flex; flex-direction:column; gap:14px; margin-top:6px; }
+  #input-name{
+    background:var(--surface-2); border:1px solid var(--border-strong);
+    color:var(--text); font-size:17px; padding:13px 16px; border-radius:10px;
+    font-family:var(--font-body);
+  }
+  #input-name:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+
+  .level-intro-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .level-intro-list li{
+    display:flex; align-items:baseline; gap:10px;
+    font-size:14px; color:var(--text-dim); font-family:var(--font-mono);
+  }
+  .level-intro-list li::before{ content:"◆"; color:var(--accent-2); font-size:10px; }
+
+  /* ---------- Play screen ---------- */
+  #screen-play{ flex-direction:column; gap:16px; padding-top:clamp(12px,3vw,28px); }
+  .hud{
+    width:100%; max-width:640px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap;
+    background:color-mix(in srgb, var(--surface) 92%, transparent);
+    border:1px solid var(--border); border-radius:14px;
+    padding:12px 18px;
+  }
+  .hud-left, .hud-right{ display:flex; flex-direction:column; gap:2px; min-width:90px; }
+  .hud-right{ align-items:flex-end; }
+  .hud-label{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); }
+  .hud-sub{ font-size:13px; color:var(--text-dim); font-family:var(--font-mono); }
+  .hud-score{ font-family:var(--font-mono); font-size:22px; font-weight:600; color:var(--accent-2); font-variant-numeric:tabular-nums; }
+  .hud-equation-wrap{ display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; min-width:180px; text-align:center; }
+  .hud-eq-label{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); }
+  .hud-eq{ font-size:clamp(16px,3.4vw,20px); font-weight:600; color:var(--text); line-height:1.35; }
+  .hud-eq sup{ font-size:0.7em; }
+  .hud-domain{ font-family:var(--font-mono); font-size:12px; color:var(--danger); min-height:14px; }
+
+  .piecewise-eq{ display:inline-flex; align-items:center; gap:6px; text-align:left; vertical-align:middle; }
+  .piecewise-fx{ font-weight:600; }
+  .piecewise-brace{
+    font-family:Georgia,'Times New Roman',serif; font-size:1.9em; font-weight:400;
+    line-height:0.7; color:var(--text-dim); transform:scaleY(1.35); display:inline-block;
+  }
+  .piecewise-cases{ display:flex; flex-direction:column; gap:3px; }
+  .piecewise-case{ display:flex; align-items:baseline; gap:7px; white-space:nowrap; }
+  .piecewise-expr{ font-weight:600; font-size:0.72em; color:var(--text); }
+  .piecewise-cond{ font-family:var(--font-mono); font-size:0.55em; color:var(--text-faint); font-weight:400; letter-spacing:0.02em; }
+
+  .canvas-wrap{
+    position:relative;
+    width:min(92vw,520px); aspect-ratio:1/1;
+    background:color-mix(in srgb, var(--surface) 96%, transparent);
+    border:1px solid var(--border); border-radius:16px;
+    box-shadow:var(--shadow-glow), inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
+    overflow:hidden;
+    touch-action:none;
+  }
+  #canvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:none; cursor:crosshair; }
+  .canvas-hint{
+    position:absolute; bottom:10px; left:0; right:0; text-align:center;
+    font-family:var(--font-mono); font-size:11px; color:var(--text-faint);
+    pointer-events:none; letter-spacing:0.03em;
+  }
+  .legend{
+    position:absolute; top:10px; right:12px; display:flex; flex-direction:column; gap:4px;
+    font-family:var(--font-mono); font-size:11px; pointer-events:none;
+  }
+  .zoom-controls{
+    position:absolute; top:10px; left:12px; z-index:2;
+    display:flex; align-items:center; gap:2px;
+    background:color-mix(in srgb, var(--surface) 90%, transparent);
+    border:1px solid var(--border); border-radius:8px; padding:3px;
+    font-family:var(--font-mono); font-size:11px; color:var(--text-dim);
+    touch-action:none;
+    pointer-events:none;
+  }
+  .zoom-controls button, .zoom-controls span{
+    pointer-events:auto;
+  }
+  .zoom-controls button{
+    appearance:none; border:none; cursor:pointer; background:var(--surface-2);
+    color:var(--text); width:24px; height:24px; border-radius:6px;
+    font-size:15px; line-height:1; display:flex; align-items:center; justify-content:center;
+  }
+  .zoom-controls button:hover{ background:var(--border-strong); }
+  .zoom-controls span{ width:38px; text-align:center; cursor:pointer; user-select:none; }
+  .legend span{ display:flex; align-items:center; gap:6px; }
+  .legend .swatch{ width:14px; height:3px; border-radius:2px; display:inline-block; }
+
+  .play-controls{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .play-controls-row{ display:flex; gap:12px; }
+  .btn-danger-link{
+    background:transparent; border:none; color:var(--danger); font-size:13px;
+    text-decoration:underline; text-underline-offset:3px; cursor:pointer; opacity:0.75;
+    padding:6px 8px; font-family:var(--font-body);
+  }
+  .btn-danger-link:hover{ opacity:1; }
+
+  .mode-toggle{
+    display:inline-flex; gap:4px; background:var(--surface-2); border:1px solid var(--border);
+    border-radius:10px; padding:4px;
+  }
+  .mode-btn{
+    appearance:none; border:none; cursor:pointer; background:transparent;
+    color:var(--text-dim); font-family:var(--font-mono); font-size:12px;
+    padding:8px 14px; border-radius:7px; transition:background 0.15s ease, color 0.15s ease;
+  }
+  .mode-btn.active{ background:var(--accent); color:#1a1330; font-weight:600; }
+  .mode-btn:hover:not(.active){ color:var(--text); }
+
+  .reveal-caption{
+    font-family:var(--font-mono); font-size:13px; color:var(--accent-2-strong);
+    text-align:center; letter-spacing:0.02em; animation:pop-in 0.3s ease;
+  }
+
+  .result-panel{
+    width:min(92vw,520px);
+    background:color-mix(in srgb, var(--surface) 94%, transparent);
+    border:1px solid var(--border); border-radius:16px;
+    padding:20px; display:flex; flex-direction:column; align-items:center; gap:10px;
+    animation:pop-in 0.25s ease;
+  }
+  @keyframes pop-in{ from{ opacity:0; transform:translateY(8px) scale(0.98);} to{ opacity:1; transform:none; } }
+  .result-score{ display:flex; align-items:baseline; gap:4px; font-family:var(--font-mono); }
+  .result-score-num{ font-size:40px; font-weight:600; color:var(--accent-2-strong); font-variant-numeric:tabular-nums; }
+  .result-score.big .result-score-num{ font-size:52px; }
+  .result-score-den{ font-size:16px; color:var(--text-faint); }
+  .result-stars{ display:flex; gap:6px; font-size:22px; }
+  .result-stars.big{ font-size:30px; }
+  .star{ color:var(--border-strong); }
+  .star.filled{ color:var(--accent-2-strong); text-shadow:0 0 12px color-mix(in srgb, var(--accent-2) 70%, transparent); }
+  .result-msg{ text-align:center; color:var(--text-dim); font-style:italic; font-size:14.5px; }
+  .result-actions{ display:flex; gap:12px; margin-top:6px; }
+
+  .overlay-compare{ width:100%; display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:4px; }
+  .overlay-title{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-faint); }
+  .overlay-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
+  .overlay-col{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .overlay-col canvas{
+    width:100%; aspect-ratio:1/1;
+    background:color-mix(in srgb, var(--surface) 96%, transparent);
+    border:1px solid var(--border); border-radius:12px;
+  }
+  .overlay-label{ font-family:var(--font-mono); font-size:11px; color:var(--text-dim); }
+  .overlay-legend{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .overlay-legend-item{ display:flex; align-items:center; gap:5px; font-family:var(--font-mono); font-size:11px; color:var(--text-dim); }
+  .overlay-legend-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
+
+  .ranking-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; max-height:50vh; overflow-y:auto; }
+  .ranking-item{
+    display:flex; align-items:center; gap:12px;
+    background:var(--surface-2); border:1px solid var(--border);
+    border-radius:10px; padding:10px 14px;
+    font-family:var(--font-mono); font-size:14px;
+  }
+  .ranking-item.top{ border-color:var(--accent-2); box-shadow:0 0 0 1px color-mix(in srgb, var(--accent-2) 30%, transparent); }
+  .ranking-item.guild{ opacity:0.85; }
+  .rank-pos{ width:22px; color:var(--accent-2); font-weight:600; }
+  .rank-name{ flex:1; color:var(--text); font-family:var(--font-body); }
+  .rank-score{ color:var(--accent-strong); font-weight:600; font-variant-numeric:tabular-nums; }
+  .rank-tag{ color:var(--text-faint); font-size:12px; }
+
+  .ranking-section-title{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--text-faint); margin-top:18px; padding-top:14px; border-top:1px solid var(--border);
+  }
+  .ranking-section-title.no-border{ margin-top:0; padding-top:0; border-top:none; }
+
+  /* ---------- Gremios (color de la magia) ---------- */
+  body[data-guild="amarillo"]{ --guild-accent:#c9931f; --guild-accent-strong:#e8b23d; }
+  body[data-guild="rojo"]{ --guild-accent:#c94a3f; --guild-accent-strong:#e2574c; }
+  body[data-guild="verde"]{ --guild-accent:#3f9c54; --guild-accent-strong:#4fbf67; }
+
+  .guild-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:6px; }
+  .guild-option{
+    appearance:none; cursor:pointer; border-radius:14px; padding:22px 10px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    border:2px solid transparent; color:#1a1330; font-family:var(--font-body);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .guild-option:hover{ transform:translateY(-3px); }
+  .guild-option:focus-visible{ outline:2px solid var(--text); outline-offset:2px; }
+  .guild-option .guild-emoji{ font-size:26px; }
+  .guild-option .guild-name{ font-weight:700; font-size:15px; }
+  .guild-option .guild-flavor{ font-size:11px; opacity:0.85; text-align:center; }
+  .guild-option.amarillo{ background:linear-gradient(160deg,#f3cf6a,#d9a52a); box-shadow:0 6px 18px rgba(201,147,31,0.35); }
+  .guild-option.rojo{ background:linear-gradient(160deg,#ef7b6f,#c94a3f); box-shadow:0 6px 18px rgba(201,74,63,0.35); color:#2a0e0a; }
+  .guild-option.verde{ background:linear-gradient(160deg,#7be08f,#3f9c54); box-shadow:0 6px 18px rgba(63,156,84,0.35); color:#0c2013; }
+
+  .guild-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:11px; color:var(--text-dim);
+    background:var(--surface-2); border:1px solid var(--border);
+    border-radius:999px; padding:4px 10px; width:fit-content;
+  }
+  .guild-badge .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; background:var(--guild-accent-strong); }
+  .rank-guild-dot{ width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:480px){
+    .menu-card{ gap:14px; }
+    .hud{ padding:10px 14px; }
+    .btn{ padding:12px 18px; font-size:14px; }
+    .play-controls-row{ flex-wrap:wrap; justify-content:center; }
+    .play-controls-row .btn{ flex:1 1 auto; white-space:nowrap; }
+  }
+</style>
+
+<div class="arcane-bg" aria-hidden="true">
+  <svg class="arcane-ring" viewBox="0 0 200 200"><g fill="none" stroke="var(--guild-accent-strong)" stroke-width="0.4" opacity="0.7">
+    <circle cx="100" cy="100" r="92"/><circle cx="100" cy="100" r="78"/>
+    <g id="ticks1"></g>
+  </g></svg>
+  <svg class="arcane-ring r2" viewBox="0 0 200 200"><g fill="none" stroke="var(--accent-2)" stroke-width="0.4" opacity="0.6">
+    <circle cx="100" cy="100" r="60"/>
+    <polygon points="100,20 174,146 26,146" />
+  </g></svg>
+</div>
+
+<div id="app">
+
+  <section id="screen-menu" class="screen" data-screen>
+    <div class="menu-card">
+      <p class="eyebrow">Un cuento antes de comenzar</p>
+      <h1 class="title-display">Grimorio de <span class="accent">Funciones</span></h1>
+      <div class="story-scroll">
+        <p>Hace muchísimo tiempo, en un terreno lejano casi olvidado por los mapas, se creía que aquel capaz de trazar los <em>tres hechizos ancestrales</em> con su propia mano lograría convertirse en el Mago Supremo, guardián eterno del Grimorio de las Funciones.</p>
+        <p>Durante siglos, incontables aprendices cruzaron ese terreno en busca de tal destino. Las rectas del poder, las curvas del quiebre y los símbolos del infinito pusieron a prueba su mano y su mente, uno a uno.</p>
+        <p>Muchos lo intentaron. <em>Muy pocos lo lograron.</em></p>
+        <p>Hoy, la última página en blanco del grimorio se abre ante ti. Tu mano —ya sea guiada por un dedo sobre el cristal o por el pulso firme de un mouse— será la pluma que trace tu destino.</p>
+        <p>¿Serás uno de los pocos elegidos? ¿Lograrás dibujar los tres hechizos y alzarte como el mejor entre los magos?</p>
+      </div>
+      <div class="menu-actions">
+        <button id="btn-start" class="btn btn-primary">Comenzar tu travesía</button>
+        <button id="btn-view-ranking" class="btn btn-ghost">Salón de los Magos</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-name" class="screen" data-screen hidden>
+    <div class="menu-card narrow">
+      <p class="eyebrow">Antes de partir</p>
+      <h2 class="title-display small">¿Cómo te llaman en las tierras lejanas?</h2>
+      <p class="muted">Este nombre quedará grabado en el grimorio si logras completar los tres hechizos ancestrales.</p>
+      <form id="form-name">
+        <input id="input-name" type="text" maxlength="24" placeholder="Nombre de mago o maga" autocomplete="off" required />
+        <button type="submit" class="btn btn-primary">Iniciar el primer hechizo</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="screen-guild" class="screen" data-screen hidden>
+    <div class="menu-card narrow">
+      <p class="eyebrow">La marca de tu magia</p>
+      <h2 class="title-display small">Cada aprendiz resuena con un color distinto</h2>
+      <p class="muted">Antes de trazar tu primer hechizo, el grimorio quiere saber:</p>
+      <p class="muted" style="font-weight:600; color:var(--text); font-size:17px;">El color de la magia matemática es:</p>
+      <div class="guild-grid">
+        <button class="guild-option amarillo" data-guild="amarillo" type="button">
+          <span class="guild-emoji">🟡</span>
+          <span class="guild-name">Amarillo</span>
+          <span class="guild-flavor">Gremio del Sol</span>
+        </button>
+        <button class="guild-option rojo" data-guild="rojo" type="button">
+          <span class="guild-emoji">🔴</span>
+          <span class="guild-name">Rojo</span>
+          <span class="guild-flavor">Gremio de la Llama</span>
+        </button>
+        <button class="guild-option verde" data-guild="verde" type="button">
+          <span class="guild-emoji">🟢</span>
+          <span class="guild-name">Verde</span>
+          <span class="guild-flavor">Gremio del Bosque</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-level-intro" class="screen" data-screen hidden>
+    <div class="menu-card narrow">
+      <p class="eyebrow" id="level-intro-eyebrow">Hechizo I de III</p>
+      <h2 class="title-display small" id="level-intro-title"></h2>
+      <p class="muted" id="level-intro-desc"></p>
+      <ul class="level-intro-list" id="level-intro-list"></ul>
+      <div class="menu-actions">
+        <button id="btn-level-start" class="btn btn-primary">Trazar el hechizo</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-play" class="screen" data-screen hidden>
+    <div class="hud">
+      <div class="hud-left">
+        <span class="hud-label" id="hud-level-name">Nivel</span>
+        <span class="hud-sub" id="hud-round">Ronda 1/3</span>
+        <span class="guild-badge" id="hud-guild-badge" hidden><span class="dot"></span><span id="hud-guild-name"></span></span>
+      </div>
+      <div class="hud-equation-wrap">
+        <span class="hud-eq-label">Dibuja</span>
+        <span class="hud-eq" id="hud-equation">y = x</span>
+        <span class="hud-domain" id="hud-domain"></span>
+      </div>
+      <div class="hud-right">
+        <span class="hud-label">Puntaje</span>
+        <span class="hud-score" id="hud-score">—</span>
+      </div>
+    </div>
+
+    <div class="mode-toggle" role="group" aria-label="Modo de trazo">
+      <button id="btn-mode-freehand" class="mode-btn active" type="button">✏️ Trazo libre</button>
+      <button id="btn-mode-points" class="mode-btn" type="button">📍 Puntos</button>
+    </div>
+
+    <div class="canvas-wrap">
+      <canvas id="canvas"></canvas>
+      <div class="zoom-controls">
+        <button id="btn-zoom-out" type="button" aria-label="Alejar zoom">−</button>
+        <span id="zoom-label" title="Restablecer zoom">1.0×</span>
+        <button id="btn-zoom-in" type="button" aria-label="Acercar zoom">+</button>
+      </div>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--accent-strong)"></i>tu trazo</span>
+        <span id="legend-target" hidden><i class="swatch" style="background:var(--accent-2-strong)"></i>trazo real</span>
+      </div>
+      <div class="canvas-hint" id="canvas-hint">Traza la función con tu dedo o el mouse</div>
+    </div>
+
+    <p class="reveal-caption" id="reveal-caption" hidden>✨ Así luce el hechizo real...</p>
+
+    <div class="play-controls" id="play-controls">
+      <div class="mode-toggle" id="infinity-toggle" hidden role="group" aria-label="Continuar al infinito">
+        <button id="btn-extend-left" class="mode-btn" type="button">⬅️ ∞</button>
+        <button id="btn-extend-right" class="mode-btn" type="button">∞ ➡️</button>
+      </div>
+      <div class="play-controls-row">
+        <button id="btn-clear" class="btn btn-ghost">Borrar trazo</button>
+        <button id="btn-undo-point" class="btn btn-ghost" hidden>Deshacer punto</button>
+        <button id="btn-new-segment" class="btn btn-ghost" type="button" hidden>✂️ Separar trazo</button>
+        <button id="btn-check" class="btn btn-primary">Verificar hechizo</button>
+      </div>
+      <button id="btn-surrender" class="btn-danger-link" type="button">🏳️ Rendirme y unirme al gremio</button>
+    </div>
+
+    <div class="result-panel" id="result-panel" hidden>
+      <div class="result-score"><span class="result-score-num" id="result-score-num">0</span><span class="result-score-den">/100</span></div>
+      <div class="result-stars" id="result-stars"></div>
+      <p class="result-msg" id="result-msg"></p>
+      <div class="result-actions">
+        <button id="btn-retry" class="btn btn-ghost">Reintentar</button>
+        <button id="btn-next" class="btn btn-primary">Continuar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-surrender" class="screen" data-screen hidden>
+    <div class="menu-card narrow" style="align-items:center; text-align:center;">
+      <p class="eyebrow">Una decisión difícil</p>
+      <h2 class="title-display small">El mago se retiró</h2>
+      <p class="muted">Decidió ser uno más del gremio, dejando el grimorio para quien se atreva a continuar.</p>
+      <p class="muted small" id="surrender-progress"></p>
+      <p class="muted small" id="surrender-save-status"></p>
+      <div class="menu-actions" style="justify-content:center;">
+        <button id="btn-surrender-ranking" class="btn btn-primary">Ver Salón de los Magos</button>
+        <button id="btn-surrender-menu" class="btn btn-ghost">Volver al menú</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-level-complete" class="screen" data-screen hidden>
+    <div class="menu-card narrow" style="align-items:center; text-align:center;">
+      <p class="eyebrow">Hechizo completado</p>
+      <h2 class="title-display small" id="level-complete-title"></h2>
+      <div class="result-stars big" id="level-complete-stars"></div>
+      <div class="result-score"><span class="result-score-num" id="level-complete-num">0</span><span class="result-score-den">/100</span></div>
+      <p class="muted" id="level-complete-msg"></p>
+
+      <div class="overlay-compare" id="overlay-compare" hidden>
+        <p class="overlay-title">Los hechizos de esta sección, uno sobre otro</p>
+        <div class="overlay-grid">
+          <div class="overlay-col">
+            <canvas id="overlay-canvas-user"></canvas>
+            <p class="overlay-label">Tus trazos</p>
+          </div>
+          <div class="overlay-col">
+            <canvas id="overlay-canvas-target"></canvas>
+            <p class="overlay-label">Cómo debieron quedar</p>
+          </div>
+        </div>
+        <div class="overlay-legend" id="overlay-legend"></div>
+      </div>
+
+      <button id="btn-level-continue" class="btn btn-primary">Continuar</button>
+    </div>
+  </section>
+
+  <section id="screen-final" class="screen" data-screen hidden>
+    <div class="menu-card narrow" style="align-items:center; text-align:center;">
+      <p class="eyebrow">El grimorio se cierra</p>
+      <h2 class="title-display small" id="final-title"></h2>
+      <span class="guild-badge" id="final-guild-badge" hidden style="align-self:center;"><span class="dot"></span><span id="final-guild-name"></span></span>
+      <p class="muted" id="final-msg"></p>
+      <div class="result-score big"><span class="result-score-num" id="final-score-num">0</span><span class="result-score-den">/100</span></div>
+      <p class="muted small" id="final-save-status"></p>
+      <div class="menu-actions" style="justify-content:center;">
+        <button id="btn-see-ranking" class="btn btn-primary">Ver Salón de los Magos</button>
+        <button id="btn-play-again" class="btn btn-ghost">Jugar de nuevo</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-ranking" class="screen" data-screen hidden>
+    <div class="menu-card">
+      <p class="eyebrow">Salón de los Magos Supremos</p>
+      <h2 class="title-display small">Ranking</h2>
+
+      <p class="ranking-section-title no-border">🏆 Los más grandes hechiceros</p>
+      <p class="muted small" id="ranking-status"></p>
+      <ol class="ranking-list" id="ranking-list"></ol>
+
+      <p class="ranking-section-title">🍺 El gremio · magos que se rindieron</p>
+      <p class="muted small" id="guild-status"></p>
+      <ol class="ranking-list" id="guild-list"></ol>
+
+      <div class="menu-actions">
+        <button id="btn-ranking-back" class="btn btn-ghost">Volver al menú</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.13.2/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@10.13.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ============ Utilidades matemáticas ============ */
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function pick(arr){ return arr[randInt(0,arr.length-1)]; }
+
+  function genLinear(){ return {type:'linear', params:{ m: pick([-4,-3,-2,-1,1,2,3,4]), b: randInt(-6,6) }}; }
+  function genQuadratic(){ return {type:'quadratic', params:{ a: pick([-2,-1,1,2]), h: randInt(-4,4), k: randInt(-4,4) }}; }
+  function genAbs(){ return {type:'abs', params:{ a: pick([-2,-1,1,2]), h: randInt(-4,4), k: randInt(-4,4) }}; }
+  function genLog(){ return {type:'log', params:{ h: randInt(-4,3), k: randInt(-4,4) }}; }
+  function genExp(){ return {type:'exp', params:{ h: randInt(-3,3), k: randInt(-4,4) }}; }
+  function genFromType(t){
+    switch(t){
+      case 'linear': return genLinear();
+      case 'quadratic': return genQuadratic();
+      case 'abs': return genAbs();
+      case 'log': return genLog();
+      case 'exp': return genExp();
+    }
+  }
+  function genPiecewise(types){
+    const c = randInt(-3,3);
+    const p1 = genFromType(pick(types));
+    const p2 = genFromType(pick(types));
+    p1.domain=[-8,c]; p2.domain=[c,8];
+    return {type:'piecewise', params:{ pieces:[p1,p2], breakpoint:c }};
+  }
+  function genRoundForType(t){
+    if(t==='piecewise1') return genPiecewise(['linear','quadratic','abs']);
+    if(t==='piecewise2') return genPiecewise(['quadratic','abs','exp']);
+    return genFromType(t);
+  }
+
+  /* ============ Variedad: evita que las funciones se repitan al reiniciar ============ */
+  const RECENT_FN_KEY = 'grimorio_recent_fns_v1';
+  function descSignature(desc){ return JSON.stringify(desc); }
+  function loadRecentSignatures(){
+    try{
+      const raw = localStorage.getItem(RECENT_FN_KEY);
+      const list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    }catch(e){ return []; }
+  }
+  function pushRecentSignature(sig){
+    try{
+      const list = loadRecentSignatures();
+      list.push(sig);
+      while(list.length>40) list.shift();
+      localStorage.setItem(RECENT_FN_KEY, JSON.stringify(list));
+    }catch(e){ /* almacenamiento no disponible: no pasa nada, solo se pierde el historial */ }
+  }
+  function genUniqueRound(t, avoidSigs){
+    let desc, sig, attempts=0;
+    do{
+      desc = genRoundForType(t);
+      sig = descSignature(desc);
+      attempts++;
+    } while(attempts<15 && avoidSigs.indexOf(sig)!==-1);
+    avoidSigs.push(sig);
+    pushRecentSignature(sig);
+    return desc;
+  }
+
+  function evalFn(desc,x){
+    switch(desc.type){
+      case 'linear': return desc.params.m*x + desc.params.b;
+      case 'quadratic': return desc.params.a*Math.pow(x-desc.params.h,2) + desc.params.k;
+      case 'abs': return desc.params.a*Math.abs(x-desc.params.h) + desc.params.k;
+      case 'log': return Math.log(x-desc.params.h) + desc.params.k;
+      case 'exp': return Math.exp(x-desc.params.h) + desc.params.k;
+      case 'piecewise': {
+        const p = piecewiseActivePiece(desc,x);
+        return p ? evalFn(p,x) : null;
+      }
+    }
+    return null;
+  }
+  function domainOk(desc,x){
+    if(desc.type==='log') return x > desc.params.h + 1e-6;
+    if(desc.type==='piecewise'){
+      const p = piecewiseActivePiece(desc,x);
+      return p ? domainOk(p,x) : false;
+    }
+    return true;
+  }
+  function piecewiseActivePiece(desc,x){
+    const pieces = desc.params.pieces;
+    for(let i=0;i<pieces.length;i++){
+      const p = pieces[i];
+      const isLast = i===pieces.length-1;
+      if(x <= p.domain[1] || isLast) return p;
+    }
+    return null;
+  }
+  function getBaseViewport(desc){
+    const usesExp = desc.type==='exp' || (desc.type==='piecewise' && desc.params.pieces.some(function(p){return p.type==='exp';}));
+    if(usesExp) return {xMin:-8,xMax:8,yMin:-4,yMax:12};
+    return {xMin:-8,xMax:8,yMin:-8,yMax:8};
+  }
+  function getViewport(desc){
+    const base = getBaseViewport(desc);
+    const zoom = state.zoom || 1;
+    const cx = (base.xMin+base.xMax)/2, cy = (base.yMin+base.yMax)/2;
+    const halfX = (base.xMax-base.xMin)/2/zoom, halfY = (base.yMax-base.yMin)/2/zoom;
+    return {xMin:cx-halfX, xMax:cx+halfX, yMin:cy-halfY, yMax:cy+halfY};
+  }
+
+  /* ============ Formato de ecuaciones ============ */
+  function kSuffix(k){ if(k===0) return ''; return k>0 ? (' + '+k) : (' − '+Math.abs(k)); }
+  function hTermParen(h){ return h===0 ? 'x' : ('(x '+(h>0?('− '+h):('+ '+Math.abs(h)))+')'); }
+  function hTermBare(h){ return h===0 ? 'x' : ('x '+(h>0?('− '+h):('+ '+Math.abs(h)))); }
+
+  function formatLinear(p){
+    const abs=Math.abs(p.m);
+    const mStr = abs===1 ? (p.m<0?'−x':'x') : (p.m+'x');
+    return 'y = '+mStr+kSuffix(p.b);
+  }
+  function formatQuadratic(p){
+    const abs=Math.abs(p.a);
+    const aStr = abs===1 ? (p.a<0?'−':'') : String(p.a);
+    return 'y = '+aStr+hTermParen(p.h)+'²'+kSuffix(p.k);
+  }
+  function formatAbs(p){
+    const abs=Math.abs(p.a);
+    const aStr = abs===1 ? (p.a<0?'−':'') : String(p.a);
+    return 'y = '+aStr+'|'+hTermBare(p.h)+'|'+kSuffix(p.k);
+  }
+  function formatLog(p){ return 'y = ln('+hTermBare(p.h)+')'+kSuffix(p.k); }
+  function formatExp(p){ return 'y = e<sup>'+hTermBare(p.h)+'</sup>'+kSuffix(p.k); }
+  function formatPieceInline(p){
+    switch(p.type){
+      case 'linear': return formatLinear(p.params).replace('y = ','');
+      case 'quadratic': return formatQuadratic(p.params).replace('y = ','');
+      case 'abs': return formatAbs(p.params).replace('y = ','');
+      case 'exp': return formatExp(p.params).replace('y = ','');
+      case 'log': return formatLog(p.params).replace('y = ','');
+    }
+  }
+  function formatPiecewise(desc){
+    const pieces = desc.params.pieces, c = desc.params.breakpoint;
+    return '<span class="piecewise-eq">'+
+             '<span class="piecewise-fx">f(x) =</span>'+
+             '<span class="piecewise-brace">{</span>'+
+             '<span class="piecewise-cases">'+
+               '<span class="piecewise-case"><span class="piecewise-expr">'+formatPieceInline(pieces[0])+'</span><span class="piecewise-cond">si x ≤ '+c+'</span></span>'+
+               '<span class="piecewise-case"><span class="piecewise-expr">'+formatPieceInline(pieces[1])+'</span><span class="piecewise-cond">si x &gt; '+c+'</span></span>'+
+             '</span>'+
+           '</span>';
+  }
+  function formatEquation(desc){
+    switch(desc.type){
+      case 'linear': return {html:formatLinear(desc.params), domain:''};
+      case 'quadratic': return {html:formatQuadratic(desc.params), domain:''};
+      case 'abs': return {html:formatAbs(desc.params), domain:''};
+      case 'log': return {html:formatLog(desc.params), domain:'Dominio: x > '+desc.params.h};
+      case 'exp': return {html:formatExp(desc.params), domain:''};
+      case 'piecewise': return {html:formatPiecewise(desc), domain:''};
+    }
+  }
+
+  /* ============ Definición de niveles ============ */
+  const LEVELS = [
+    {
+      name:'Primer Hechizo: Rectas del Poder',
+      subtitle:'El primer conjuro que domina todo aprendiz: las funciones lineales. Traza rectas con la pendiente e intersección exactas.',
+      items:['Funciones lineales · y = mx + b'],
+      roundTypes:['linear','linear','linear']
+    },
+    {
+      name:'Segundo Hechizo: Curvas y Quiebres',
+      subtitle:'Las líneas rectas ya no bastan. Ahora deberás dominar las curvas que se doblan sobre sí mismas y los quiebres afilados del valor absoluto.',
+      items:['Funciones cuadráticas · y = a(x−h)² + k','Funciones de valor absoluto · y = a|x−h| + k'],
+      roundTypes:['quadratic','abs','quadratic','abs']
+    },
+    {
+      name:'Tercer Hechizo: El Grimorio Completo',
+      subtitle:'El hechizo final combina los símbolos del crecimiento infinito, el susurro del logaritmo, y conjuros a trozos construidos sobre todo lo aprendido.',
+      items:['Funciones logarítmicas · y = ln(x−h) + k','Funciones exponenciales · y = eˣ⁻ʰ + k','Funciones a trozos, combinando las anteriores'],
+      roundTypes:['log','exp','piecewise1','piecewise2']
+    }
+  ];
+
+  /* ============ Gremios ============ */
+  const GUILDS = {
+    amarillo: { label:'Gremio del Sol', dot:'#e8b23d' },
+    rojo: { label:'Gremio de la Llama', dot:'#e2574c' },
+    verde: { label:'Gremio del Bosque', dot:'#4fbf67' }
+  };
+
+  /* ============ Estado global ============ */
+  const state = {
+    playerName:'', guildKey:null, levelIdx:0, roundIdx:0, currentRounds:[],
+    roundScores:[[],[],[]], canvasSize:0, columnMap:new Map(), strokeBreaks:new Set(),
+    isDrawing:false, checked:false, dbApi:null, lastPt:null,
+    drawMode:'freehand', points:[], extendLeft:false, extendRight:false,
+    zoom:1, activePointers:new Map(), pinchStartDist:null, pinchStartZoom:1,
+    levelDrawings:[], currentSeg:0
+  };
+
+  /* ============ Referencias DOM ============ */
+  const $ = function(id){ return document.getElementById(id); };
+  const canvas = $('canvas');
+  const ctx = canvas.getContext('2d');
+  const resultPanel = $('result-panel');
+  const canvasHint = $('canvas-hint');
+  const legendTarget = $('legend-target');
+  const playControls = $('play-controls');
+  const revealCaption = $('reveal-caption');
+
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.hidden = s.id !== ('screen-'+id); });
+    window.scrollTo(0,0);
+  }
+  function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function escapeHtml(str){ const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+
+  /* ============ Canvas: geometría ============ */
+  function toPixelX(x,vp,size){ return (x-vp.xMin) * (size/(vp.xMax-vp.xMin)); }
+  function toPixelY(y,vp,size){ return size - (y-vp.yMin) * (size/(vp.yMax-vp.yMin)); }
+  function toMathX(px,vp,size){ return vp.xMin + px*(vp.xMax-vp.xMin)/size; }
+  function toMathY(py,vp,size){ return vp.yMin + (size-py)*(vp.yMax-vp.yMin)/size; }
+
+  function setupCanvas(){
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    state.canvasSize = rect.width;
+    canvas.width = Math.max(1,Math.round(rect.width*dpr));
+    canvas.height = Math.max(1,Math.round(rect.height*dpr));
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function currentDesc(){ return state.currentRounds[state.roundIdx]; }
+
+  function drawGrid(vp){
+    const size = state.canvasSize;
+    ctx.clearRect(0,0,size,size);
+    const scaleX = size/(vp.xMax-vp.xMin), scaleY = size/(vp.yMax-vp.yMin);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = cssVar('--grid-line');
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.fillStyle = cssVar('--text-faint');
+    for(let x=Math.ceil(vp.xMin); x<=Math.floor(vp.xMax); x++){
+      const px = toPixelX(x,vp,size);
+      ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,size); ctx.stroke();
+      if(x!==0 && x%2===0 && x>vp.xMin+0.5 && x<vp.xMax-0.5){
+        const labelY = Math.min(Math.max(toPixelY(0,vp,size)-4, 11), size-4);
+        ctx.fillText(String(x), Math.min(px+3,size-16), labelY);
+      }
+    }
+    for(let y=Math.ceil(vp.yMin); y<=Math.floor(vp.yMax); y++){
+      const py = toPixelY(y,vp,size);
+      ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(size,py); ctx.stroke();
+      if(y!==0 && y%2===0 && y>vp.yMin+0.5 && y<vp.yMax-0.5){
+        const labelX = Math.min(Math.max(toPixelX(0,vp,size)+4, 2), size-20);
+        ctx.fillText(String(y), labelX, Math.max(Math.min(py-3,size-4),11));
+      }
+    }
+    ctx.strokeStyle = cssVar('--grid-axis'); ctx.lineWidth = 2;
+    if(vp.xMin<=0 && vp.xMax>=0){ const zx=toPixelX(0,vp,size); ctx.beginPath(); ctx.moveTo(zx,0); ctx.lineTo(zx,size); ctx.stroke(); }
+    if(vp.yMin<=0 && vp.yMax>=0){ const zy=toPixelY(0,vp,size); ctx.beginPath(); ctx.moveTo(0,zy); ctx.lineTo(size,zy); ctx.stroke(); }
+  }
+
+  function drawAsymptotes(desc,vp){
+    const size = state.canvasSize;
+    ctx.save();
+    ctx.setLineDash([6,5]); ctx.lineWidth=1.5; ctx.globalAlpha=0.55;
+    ctx.strokeStyle = cssVar('--danger');
+    function vLine(h){ const px=toPixelX(h,vp,size); ctx.beginPath(); ctx.moveTo(px,0); ctx.lineTo(px,size); ctx.stroke(); }
+    function hLine(k){ const py=toPixelY(k,vp,size); ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(size,py); ctx.stroke(); }
+    if(desc.type==='log') vLine(desc.params.h);
+    if(desc.type==='exp') hLine(desc.params.k);
+    if(desc.type==='piecewise') desc.params.pieces.forEach(function(p){ if(p.type==='exp') hLine(p.params.k); if(p.type==='log') vLine(p.params.h); });
+    ctx.restore();
+  }
+
+  function drawUserStroke(dim){
+    const size = state.canvasSize;
+    ctx.save();
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.strokeStyle = cssVar('--accent-strong');
+    ctx.globalAlpha = dim ? 0.5 : 1;
+    ctx.lineWidth = 4;
+    ctx.shadowColor = cssVar('--accent'); ctx.shadowBlur = dim ? 0 : 10;
+    let started=false;
+    for(let px=0; px<size; px++){
+      const py = state.columnMap.get(px);
+      if(py===undefined){
+        if(started){ ctx.stroke(); started=false; }
+        continue;
+      }
+      const isBreak = state.strokeBreaks.has(px);
+      if(!started || isBreak){
+        if(started) ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(px,py); started=true;
+      }
+      else { ctx.lineTo(px,py); }
+    }
+    if(started) ctx.stroke();
+    ctx.restore();
+    if(state.drawMode==='points') drawPointMarkers(dim);
+  }
+
+  function drawPointMarkers(dim){
+    const ctx2 = ctx;
+    ctx2.save();
+    ctx2.globalAlpha = dim ? 0.5 : 1;
+    ctx2.fillStyle = cssVar('--accent-strong');
+    ctx2.strokeStyle = cssVar('--bg');
+    ctx2.lineWidth = 1.5;
+    state.points.forEach(function(pt){
+      ctx2.beginPath();
+      ctx2.arc(pt.x, pt.y, 6, 0, Math.PI*2);
+      ctx2.fill();
+      ctx2.stroke();
+    });
+    ctx2.restore();
+    if(state.points.length>=2 && (state.extendLeft || state.extendRight)){
+      const size = state.canvasSize;
+      const sorted = state.points.slice().sort(function(a,b){ return a.x-b.x; });
+      ctx2.save();
+      ctx2.globalAlpha = dim ? 0.5 : 1;
+      ctx2.fillStyle = cssVar('--accent-strong');
+      ctx2.font = '700 16px "JetBrains Mono", monospace';
+      ctx2.textBaseline = 'middle';
+      if(state.extendLeft){
+        const y0 = state.columnMap.get(0);
+        if(y0!==undefined){ ctx2.textAlign='left'; ctx2.fillText('∞', 6, Math.min(Math.max(y0,12),size-12)); }
+      }
+      if(state.extendRight){
+        const y1 = state.columnMap.get(size-1);
+        if(y1!==undefined){ ctx2.textAlign='right'; ctx2.fillText('∞', size-6, Math.min(Math.max(y1,12),size-12)); }
+      }
+      ctx2.restore();
+    }
+  }
+
+  function rebuildColumnMapFromPoints(){
+    state.columnMap = new Map();
+    state.strokeBreaks = new Set();
+    if(state.points.length===0) return;
+    /* Agrupa los puntos por "trazo" (segmento): puntos de segmentos distintos
+       nunca se unen entre sí, aunque sus columnas queden contiguas. */
+    const segs = new Map();
+    state.points.forEach(function(pt){
+      const key = pt.seg||0;
+      if(!segs.has(key)) segs.set(key, []);
+      segs.get(key).push(pt);
+    });
+    segs.forEach(function(pts){
+      const sorted = pts.slice().sort(function(a,b){ return a.x-b.x; });
+      if(sorted.length===1){
+        const rc = Math.round(sorted[0].x);
+        state.columnMap.set(rc, sorted[0].y);
+        state.strokeBreaks.add(rc);
+      } else {
+        for(let i=0;i<sorted.length-1;i++){ fillColumns(sorted[i], sorted[i+1]); }
+        state.strokeBreaks.add(Math.round(sorted[0].x));
+      }
+    });
+  }
+
+  function applyInfiniteExtensions(){
+    if(state.points.length<2) return;
+    const sorted = state.points.slice().sort(function(a,b){ return a.x-b.x; });
+    if(state.extendLeft){
+      const p0=sorted[0], p1=sorted[1];
+      const dx = p1.x-p0.x;
+      const slope = dx===0 ? 0 : (p1.y-p0.y)/dx;
+      const edge = { x:0, y: p0.y - slope*p0.x };
+      fillColumns(edge, p0);
+    }
+    if(state.extendRight){
+      const pn=sorted[sorted.length-1], pn1=sorted[sorted.length-2];
+      const dx = pn.x-pn1.x;
+      const slope = dx===0 ? 0 : (pn.y-pn1.y)/dx;
+      const edge = { x: state.canvasSize, y: pn.y + slope*(state.canvasSize-pn.x) };
+      fillColumns(pn, edge);
+    }
+  }
+
+  function drawTargetCurve(desc,vp){
+    const size = state.canvasSize;
+    const scaleX = size/(vp.xMax-vp.xMin);
+    const segments = [];
+    let current = null;
+    let lastPiece = null;
+    for(let px=0; px<=size; px++){
+      const mathX = vp.xMin + px/scaleX;
+      let py = null;
+      if(domainOk(desc,mathX)){
+        const y = evalFn(desc,mathX);
+        if(y!==null && y>=vp.yMin && y<=vp.yMax) py = toPixelY(y,vp,size);
+      }
+      const piece = desc.type==='piecewise' ? piecewiseActivePiece(desc,mathX) : null;
+      const pieceChanged = desc.type==='piecewise' && lastPiece!==null && piece!==lastPiece;
+      if(py===null || pieceChanged){
+        if(current){ segments.push(current); current=null; }
+      }
+      lastPiece = piece;
+      if(py===null) continue;
+      if(!current) current=[];
+      current.push([px,py]);
+    }
+    if(current) segments.push(current);
+
+    function strokeSegments(){
+      segments.forEach(function(seg){
+        if(seg.length<1) return;
+        ctx.beginPath();
+        ctx.moveTo(seg[0][0], seg[0][1]);
+        for(let i=1;i<seg.length;i++) ctx.lineTo(seg[i][0], seg[i][1]);
+        ctx.stroke();
+      });
+    }
+
+    ctx.save();
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    /* halo de contraste: hace visible el trazo real sobre cualquier fondo */
+    ctx.strokeStyle = cssVar('--text');
+    ctx.globalAlpha = 0.32;
+    ctx.lineWidth = 9;
+    ctx.shadowBlur = 0;
+    strokeSegments();
+    /* trazo real, encima del halo */
+    ctx.strokeStyle = cssVar('--accent-2-strong');
+    ctx.globalAlpha = 1;
+    ctx.lineWidth = 4;
+    ctx.shadowColor = cssVar('--accent-2');
+    ctx.shadowBlur = 14;
+    strokeSegments();
+    ctx.restore();
+  }
+
+  function redrawRound(showTarget){
+    const desc = currentDesc();
+    const vp = getViewport(desc);
+    drawGrid(vp);
+    drawAsymptotes(desc,vp);
+    if(showTarget){ drawTargetCurve(desc,vp); drawUserStroke(true); }
+    else { drawUserStroke(false); }
+  }
+
+  /* ============ Captura de trazo (mouse y táctil) ============ */
+  function getCanvasPoint(e){
+    const rect = canvas.getBoundingClientRect();
+    return { x: e.clientX-rect.left, y: e.clientY-rect.top };
+  }
+  function fillColumns(p0,p1,targetMap){
+    const map = targetMap || state.columnMap;
+    const x0=Math.round(p0.x), x1=Math.round(p1.x);
+    if(x0===x1){ map.set(x0, p1.y); return; }
+    const step = x0<x1 ? 1 : -1;
+    const dx = x1-x0;
+    for(let x=x0; step>0 ? x<=x1 : x>=x1; x+=step){
+      const t = dx===0 ? 0 : (x-x0)/dx;
+      const y = p0.y + (p1.y-p0.y)*t;
+      if(x>=0 && x<state.canvasSize) map.set(x,y);
+    }
+  }
+  function findPointNear(p){
+    const threshold = 16;
+    let best=-1, bestDist=threshold;
+    state.points.forEach(function(pt,i){
+      const d = Math.hypot(pt.x-p.x, pt.y-p.y);
+      if(d<bestDist){ bestDist=d; best=i; }
+    });
+    return best;
+  }
+  /* ============ Zoom del plano cartesiano ============ */
+  function remapDrawingForZoom(oldVp,newVp){
+    const size = state.canvasSize;
+    function remapPt(pt){
+      const mathX = toMathX(pt.x,oldVp,size), mathY = toMathY(pt.y,oldVp,size);
+      return { x: toPixelX(mathX,newVp,size), y: toPixelY(mathY,newVp,size) };
+    }
+    if(state.drawMode==='points'){
+      state.points = state.points.map(function(pt){
+        const r = remapPt(pt);
+        r.seg = pt.seg;
+        return r;
+      });
+      rebuildColumnMapFromPoints();
+      applyInfiniteExtensions();
+      return;
+    }
+    if(!state.columnMap.size) return;
+    /* Reagrupa en tramos contiguos (respetando huecos reales y separaciones
+       explícitas entre trazos) para no unir con una línea recta trazos
+       independientes al reescalar el zoom. */
+    const cols = Array.from(state.columnMap.keys()).sort(function(a,b){ return a-b; });
+    const runs = [];
+    let run = [];
+    let prevCol = null;
+    cols.forEach(function(col){
+      const isGap = prevCol!==null && col!==prevCol+1;
+      const isBreak = state.strokeBreaks.has(col);
+      if(run.length && (isGap || isBreak)){ runs.push(run); run=[]; }
+      run.push(col);
+      prevCol = col;
+    });
+    if(run.length) runs.push(run);
+
+    const newColumnMap = new Map();
+    const newBreaks = new Set();
+    runs.forEach(function(runCols){
+      const remappedRun = runCols.map(function(col){
+        return remapPt({ x: col, y: state.columnMap.get(col) });
+      }).sort(function(a,b){ return a.x-b.x; });
+      if(remappedRun.length===1){
+        const rc = Math.round(remappedRun[0].x);
+        newColumnMap.set(rc, remappedRun[0].y);
+        newBreaks.add(rc);
+      } else {
+        for(let i=0;i<remappedRun.length-1;i++){ fillColumns(remappedRun[i], remappedRun[i+1], newColumnMap); }
+        newBreaks.add(Math.round(remappedRun[0].x));
+      }
+    });
+    state.columnMap = newColumnMap;
+    state.strokeBreaks = newBreaks;
+  }
+  function updateZoomLabel(){ const el=$('zoom-label'); if(el) el.textContent = state.zoom.toFixed(1)+'×'; }
+  function setZoom(newZoom){
+    const desc = currentDesc();
+    if(!desc) return;
+    const clamped = Math.max(0.5, Math.min(4, newZoom));
+    if(Math.abs(clamped-state.zoom)<0.005) return;
+    const oldVp = getViewport(desc);
+    state.zoom = clamped;
+    const newVp = getViewport(desc);
+    remapDrawingForZoom(oldVp,newVp);
+    updateZoomLabel();
+    redrawRound(false);
+  }
+  function zoomBy(factor){ setZoom(state.zoom*factor); }
+  function resetZoom(){ setZoom(1); }
+
+  function onPointerDown(e){
+    if(state.checked) return;
+    state.activePointers.set(e.pointerId, getCanvasPoint(e));
+    if(state.activePointers.size===2){
+      state.isDrawing = false;
+      const pts = Array.from(state.activePointers.values());
+      state.pinchStartDist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y) || 1;
+      state.pinchStartZoom = state.zoom;
+      e.preventDefault();
+      return;
+    }
+    if(state.activePointers.size>2){ e.preventDefault(); return; }
+    const p = getCanvasPoint(e);
+    if(state.drawMode==='points'){
+      const idx = findPointNear(p);
+      if(idx>=0){ state.points.splice(idx,1); }
+      else {
+        state.points.push({ x:p.x, y:p.y, seg:state.currentSeg });
+        canvasHint.hidden = false;
+        canvasHint.textContent = 'Toca para colocar puntos (toca un punto para quitarlo)';
+      }
+      rebuildColumnMapFromPoints();
+      applyInfiniteExtensions();
+      redrawRound(false);
+      $('btn-undo-point').hidden = state.points.length===0;
+      e.preventDefault();
+      return;
+    }
+    state.isDrawing = true;
+    canvas.setPointerCapture(e.pointerId);
+    state.lastPt = p;
+    const startCol = Math.round(p.x);
+    state.strokeBreaks.add(startCol);
+    state.columnMap.set(startCol, p.y);
+    redrawRound(false);
+    e.preventDefault();
+  }
+  function onPointerMove(e){
+    if(state.activePointers.has(e.pointerId)) state.activePointers.set(e.pointerId, getCanvasPoint(e));
+    if(state.activePointers.size===2 && state.pinchStartDist){
+      const pts = Array.from(state.activePointers.values());
+      const dist = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
+      setZoom(state.pinchStartZoom*(dist/state.pinchStartDist));
+      e.preventDefault();
+      return;
+    }
+    if(state.activePointers.size>1) return;
+    if(state.drawMode==='points') return;
+    if(!state.isDrawing) return;
+    const p = getCanvasPoint(e);
+    /* Un movimiento muy brusco (gran salto vertical en muy pocas columnas)
+       casi siempre significa que el jugador está "saltando" a dibujar otra
+       pieza sin levantar el dedo/mouse, no trazando una curva real. En ese
+       caso no se conecta con una línea: se trata como el inicio de un
+       trazo nuevo, igual que si hubiera soltado y vuelto a presionar. */
+    const dx = Math.abs(p.x - state.lastPt.x);
+    const dy = Math.abs(p.y - state.lastPt.y);
+    const slope = dy / Math.max(dx, 1);
+    const isJump = dy > state.canvasSize*0.15 && slope > 3;
+    if(isJump){
+      const col = Math.round(p.x);
+      state.strokeBreaks.add(col);
+      state.columnMap.set(col, p.y);
+    } else {
+      fillColumns(state.lastPt, p);
+    }
+    state.lastPt = p;
+    redrawRound(false);
+    e.preventDefault();
+  }
+  function endStroke(e){
+    if(e && e.pointerId!==undefined) state.activePointers.delete(e.pointerId);
+    if(state.activePointers.size<2) state.pinchStartDist=null;
+    state.isDrawing=false; state.lastPt=null;
+  }
+  canvas.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointermove', onPointerMove);
+  canvas.addEventListener('pointerup', endStroke);
+  canvas.addEventListener('pointercancel', endStroke);
+  canvas.addEventListener('pointerleave', endStroke);
+  canvas.addEventListener('wheel', function(e){
+    if(state.checked) return;
+    e.preventDefault();
+    zoomBy(e.deltaY<0 ? 1.12 : 1/1.12);
+  }, {passive:false});
+
+  window.addEventListener('resize', debounce(function(){
+    if(document.getElementById('screen-play').hidden) return;
+    setupCanvas();
+    state.columnMap.clear();
+    state.strokeBreaks.clear();
+    state.points = [];
+    $('btn-undo-point').hidden = true;
+    resultPanel.hidden = true;
+    playControls.hidden = false;
+    revealCaption.hidden = true;
+    state.checked = false;
+    legendTarget.hidden = true;
+    canvasHint.hidden = false;
+    redrawRound(false);
+  }, 200));
+
+  function debounce(fn,ms){ let t; return function(){ clearTimeout(t); const args=arguments; t=setTimeout(function(){ fn.apply(null,args); }, ms); }; }
+
+  /* ============ Puntaje ============ */
+  function computeScore(){
+    const desc = currentDesc();
+    const vp = getViewport(desc);
+    const size = state.canvasSize;
+    const scaleX = size/(vp.xMax-vp.xMin), scaleY = size/(vp.yMax-vp.yMin);
+    const tolerance = scaleY * 1.7;
+    let totalErr=0, count=0;
+    for(let px=0; px<size; px++){
+      const mathX = vp.xMin + px/scaleX;
+      if(!domainOk(desc,mathX)) continue;
+      const y = evalFn(desc,mathX);
+      if(y===null || y<vp.yMin || y>vp.yMax) continue;
+      count++;
+      const targetPy = toPixelY(y,vp,size);
+      const drawnPy = state.columnMap.get(px);
+      const err = drawnPy===undefined ? tolerance*3 : Math.abs(drawnPy-targetPy);
+      totalErr += err;
+    }
+    if(count===0) return 0;
+    const avgErr = totalErr/count;
+    let score = Math.round(100*Math.exp(-avgErr/tolerance));
+    return Math.max(0, Math.min(100, score));
+  }
+
+  function starsFor(score){ return score>=90?3 : score>=70?2 : score>=45?1 : 0; }
+  function starsHtml(score){
+    const stars = starsFor(score); let html='';
+    for(let i=0;i<3;i++){ html += '<span class="star '+(i<stars?'filled':'')+'">★</span>'; }
+    return html;
+  }
+  function roundMessage(score){
+    if(score>=90) return pick(['¡Trazo perfecto! La magia responde a tu mano.','El hechizo brilla con fuerza absoluta.']);
+    if(score>=70) return pick(['Buen trazo, la magia casi es perfecta.','El conjuro tomó forma con firmeza.']);
+    if(score>=45) return pick(['El hechizo funciona, pero tiembla un poco.','La forma es reconocible; sigue practicando.']);
+    return pick(['El conjuro se deshizo... inténtalo de nuevo.','La magia no logró tomar forma esta vez.']);
+  }
+
+  function runningAverage(){
+    const all = state.roundScores.flat ? state.roundScores.flat() : [].concat.apply([],state.roundScores);
+    if(all.length===0) return null;
+    return Math.round(all.reduce(function(a,b){return a+b;},0)/all.length);
+  }
+
+  /* ============ Flujo de juego ============ */
+  function renderHud(){
+    const level = LEVELS[state.levelIdx];
+    $('hud-level-name').textContent = level.name;
+    $('hud-round').textContent = 'Ronda '+(state.roundIdx+1)+'/'+state.currentRounds.length;
+    const eq = formatEquation(currentDesc());
+    $('hud-equation').innerHTML = eq.html;
+    $('hud-domain').textContent = eq.domain;
+    const avg = runningAverage();
+    $('hud-score').textContent = avg===null ? '—' : avg;
+  }
+
+  function startRound(){
+    state.checked = false;
+    state.columnMap = new Map();
+    state.strokeBreaks = new Set();
+    state.points = [];
+    state.currentSeg = 0;
+    state.zoom = 1;
+    state.activePointers = new Map();
+    state.pinchStartDist = null;
+    updateZoomLabel();
+    state.extendLeft = false; state.extendRight = false;
+    $('btn-extend-left').classList.remove('active');
+    $('btn-extend-right').classList.remove('active');
+    $('infinity-toggle').hidden = state.drawMode!=='points';
+    $('btn-undo-point').hidden = true;
+    $('btn-new-segment').hidden = state.drawMode!=='points';
+    resultPanel.hidden = true;
+    playControls.hidden = false;
+    revealCaption.hidden = true;
+    legendTarget.hidden = true;
+    canvasHint.hidden = false;
+    canvasHint.textContent = state.drawMode==='points' ? 'Toca para colocar puntos (toca un punto para quitarlo)' : 'Traza la función con tu dedo o el mouse';
+    $('btn-check').disabled = false;
+    setupCanvas();
+    renderHud();
+    redrawRound(false);
+  }
+
+  function beginLevel(){
+    const avoidSigs = loadRecentSignatures();
+    state.currentRounds = LEVELS[state.levelIdx].roundTypes.map(function(t){ return genUniqueRound(t, avoidSigs); });
+    state.roundIdx = 0;
+    state.levelDrawings = new Array(state.currentRounds.length).fill(null);
+    showScreen('play');
+    startRound();
+  }
+
+  /* ============ Comparación final de la sección (todos los hechizos superpuestos) ============ */
+  function levelUnionViewport(){
+    let xMin=Infinity,xMax=-Infinity,yMin=Infinity,yMax=-Infinity;
+    state.currentRounds.forEach(function(desc){
+      const vp = getBaseViewport(desc);
+      xMin=Math.min(xMin,vp.xMin); xMax=Math.max(xMax,vp.xMax);
+      yMin=Math.min(yMin,vp.yMin); yMax=Math.max(yMax,vp.yMax);
+    });
+    if(!isFinite(xMin)) return {xMin:-8,xMax:8,yMin:-8,yMax:8};
+    return {xMin:xMin,xMax:xMax,yMin:yMin,yMax:yMax};
+  }
+
+  function setupMiniCanvas(cv){
+    const rect = cv.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const size = rect.width;
+    cv.width = Math.max(1,Math.round(size*dpr));
+    cv.height = Math.max(1,Math.round(size*dpr));
+    const c = cv.getContext('2d');
+    c.setTransform(dpr,0,0,dpr,0,0);
+    return { ctx:c, size:size };
+  }
+
+  function drawMiniGrid(c,size,vp){
+    c.clearRect(0,0,size,size);
+    c.strokeStyle = cssVar('--grid-line'); c.lineWidth = 1;
+    for(let x=Math.ceil(vp.xMin); x<=Math.floor(vp.xMax); x++){
+      const px = toPixelX(x,vp,size);
+      c.beginPath(); c.moveTo(px,0); c.lineTo(px,size); c.stroke();
+    }
+    for(let y=Math.ceil(vp.yMin); y<=Math.floor(vp.yMax); y++){
+      const py = toPixelY(y,vp,size);
+      c.beginPath(); c.moveTo(0,py); c.lineTo(size,py); c.stroke();
+    }
+    c.strokeStyle = cssVar('--grid-axis'); c.lineWidth = 1.5;
+    if(vp.xMin<=0 && vp.xMax>=0){ const zx=toPixelX(0,vp,size); c.beginPath(); c.moveTo(zx,0); c.lineTo(zx,size); c.stroke(); }
+    if(vp.yMin<=0 && vp.yMax>=0){ const zy=toPixelY(0,vp,size); c.beginPath(); c.moveTo(0,zy); c.lineTo(size,zy); c.stroke(); }
+  }
+
+  function strokeRunsOnCtx(c,runs,vp,size,color){
+    c.save();
+    c.strokeStyle = color; c.lineWidth = 3; c.lineCap = 'round'; c.lineJoin = 'round'; c.globalAlpha = 0.92;
+    runs.forEach(function(run){
+      if(run.length<1) return;
+      if(run.length===1){
+        const px = toPixelX(run[0].x,vp,size), py = toPixelY(run[0].y,vp,size);
+        c.beginPath(); c.arc(px,py,2.5,0,Math.PI*2); c.fillStyle=color; c.fill();
+        return;
+      }
+      c.beginPath();
+      run.forEach(function(pt,i){
+        const px = toPixelX(pt.x,vp,size), py = toPixelY(pt.y,vp,size);
+        if(i===0) c.moveTo(px,py); else c.lineTo(px,py);
+      });
+      c.stroke();
+    });
+    c.restore();
+  }
+
+  function strokeFunctionOnCtx(c,desc,vp,size,color){
+    const scaleX = size/(vp.xMax-vp.xMin);
+    c.save();
+    c.strokeStyle = color; c.lineWidth = 3; c.lineCap = 'round'; c.lineJoin = 'round'; c.globalAlpha = 0.92;
+    let started=false, lastPiece=null;
+    for(let px=0; px<=size; px++){
+      const mathX = vp.xMin + px/scaleX;
+      let py = null;
+      if(domainOk(desc,mathX)){
+        const y = evalFn(desc,mathX);
+        if(y!==null && y>=vp.yMin && y<=vp.yMax) py = toPixelY(y,vp,size);
+      }
+      const piece = desc.type==='piecewise' ? piecewiseActivePiece(desc,mathX) : null;
+      const pieceChanged = desc.type==='piecewise' && lastPiece!==null && piece!==lastPiece;
+      if(py===null || pieceChanged){ if(started){ c.stroke(); started=false; } }
+      lastPiece = piece;
+      if(py===null) continue;
+      if(!started){ c.beginPath(); c.moveTo(px,py); started=true; }
+      else c.lineTo(px,py);
+    }
+    if(started) c.stroke();
+    c.restore();
+  }
+
+  const OVERLAY_COLOR_VARS = ['--accent-strong','--accent-2-strong','--success','--danger'];
+
+  function renderLevelOverlay(){
+    const wrap = $('overlay-compare');
+    const hasAny = state.levelDrawings.some(function(s){ return !!s; });
+    if(!hasAny){ wrap.hidden = true; return; }
+    wrap.hidden = false;
+
+    const vp = levelUnionViewport();
+    const userCanvas = $('overlay-canvas-user'), targetCanvas = $('overlay-canvas-target');
+    const userSetup = setupMiniCanvas(userCanvas), targetSetup = setupMiniCanvas(targetCanvas);
+    drawMiniGrid(userSetup.ctx, userSetup.size, vp);
+    drawMiniGrid(targetSetup.ctx, targetSetup.size, vp);
+
+    const colors = OVERLAY_COLOR_VARS.map(cssVar);
+    const legendParts = [];
+    state.levelDrawings.forEach(function(snap, idx){
+      if(!snap) return;
+      const color = colors[idx % colors.length];
+      strokeRunsOnCtx(userSetup.ctx, snap.runs, vp, userSetup.size, color);
+      strokeFunctionOnCtx(targetSetup.ctx, snap.desc, vp, targetSetup.size, color);
+      legendParts.push('<span class="overlay-legend-item"><span class="overlay-legend-dot" style="background:'+color+'"></span>Ronda '+(idx+1)+'</span>');
+    });
+    $('overlay-legend').innerHTML = legendParts.join('');
+  }
+
+  function captureRoundSnapshot(){
+    const desc = currentDesc();
+    const vp = getViewport(desc);
+    const size = state.canvasSize;
+    const cols = Array.from(state.columnMap.keys()).sort(function(a,b){ return a-b; });
+    const runs = [];
+    let run = [];
+    let prevCol = null;
+    cols.forEach(function(col){
+      const isGap = prevCol!==null && col!==prevCol+1;
+      const isBreak = state.strokeBreaks.has(col);
+      if(run.length && (isGap || isBreak)){ runs.push(run); run=[]; }
+      run.push({ x: toMathX(col,vp,size), y: toMathY(state.columnMap.get(col),vp,size) });
+      prevCol = col;
+    });
+    if(run.length) runs.push(run);
+    return { desc:desc, runs:runs };
+  }
+
+  function checkAnswer(){
+    if(state.columnMap.size < 5){
+      canvasHint.hidden = false;
+      canvasHint.textContent = 'Traza primero la función sobre el lienzo';
+      return;
+    }
+    state.levelDrawings[state.roundIdx] = captureRoundSnapshot();
+    const score = computeScore();
+    state.checked = true;
+    playControls.hidden = true;
+    canvasHint.hidden = true;
+    legendTarget.hidden = false;
+    revealCaption.hidden = false;
+    redrawRound(true);
+    setTimeout(function(){ revealScore(score); }, 1300);
+  }
+
+  function revealScore(score){
+    revealCaption.hidden = true;
+    state.roundScores[state.levelIdx].push(score);
+    $('result-score-num').textContent = score;
+    $('result-stars').innerHTML = starsHtml(score);
+    $('result-msg').textContent = roundMessage(score);
+    resultPanel.hidden = false;
+    $('hud-score').textContent = runningAverage();
+  }
+
+  function retryRound(){ startRound(); }
+
+  function nextRound(){
+    state.roundIdx++;
+    if(state.roundIdx >= state.currentRounds.length){ finishLevel(); }
+    else { startRound(); }
+  }
+
+  function finishLevel(){
+    const scores = state.roundScores[state.levelIdx];
+    const avg = Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length);
+    $('level-complete-title').textContent = LEVELS[state.levelIdx].name;
+    $('level-complete-stars').innerHTML = starsHtml(avg);
+    $('level-complete-num').textContent = avg;
+    const stars = starsFor(avg);
+    $('level-complete-msg').textContent = stars===3
+      ? 'Un dominio absoluto. El grimorio reconoce tu maestría en este hechizo.'
+      : stars===2
+      ? 'Un conjuro sólido. El hechizo quedó grabado con firmeza.'
+      : stars===1
+      ? 'El hechizo funcionó, aunque tembloroso. Continúa avanzando.'
+      : 'El hechizo apenas tomó forma... pero el grimorio te deja continuar.';
+    showScreen('level-complete');
+    renderLevelOverlay();
+  }
+
+  function continueAfterLevel(){
+    if(state.levelIdx < LEVELS.length-1){
+      state.levelIdx++;
+      renderLevelIntro();
+      showScreen('level-intro');
+    } else {
+      finishGame();
+    }
+  }
+
+  function finishGame(){
+    const all = [].concat.apply([], state.roundScores);
+    const total = Math.round(all.reduce(function(a,b){return a+b;},0)/all.length);
+    const stars = starsFor(total);
+    $('final-score-num').textContent = total;
+    $('final-title').textContent = stars===3 ? 'Mago Supremo' : stars>=1 ? 'Aprendiz Notable' : 'El Grimorio Aguarda tu Regreso';
+    $('final-msg').textContent = stars===3
+      ? 'Has trazado los tres hechizos ancestrales con maestría absoluta. El grimorio te reconoce, entre pocos, como Mago Supremo.'
+      : stars>=1
+      ? 'Has completado los tres hechizos. Tu nombre queda escrito entre los aprendices que llegaron hasta el final.'
+      : 'Has cerrado el grimorio por ahora. Vuelve a intentarlo para perfeccionar tu trazo y alcanzar la maestría suprema.';
+    $('final-save-status').textContent = '';
+    showScreen('final');
+    saveScoreToRanking(state.playerName, total, false, LEVELS.length);
+  }
+
+  function renderLevelIntro(){
+    const level = LEVELS[state.levelIdx];
+    $('level-intro-eyebrow').textContent = 'Hechizo '+(state.levelIdx+1)+' de '+LEVELS.length;
+    $('level-intro-title').textContent = level.name;
+    $('level-intro-desc').textContent = level.subtitle;
+    $('level-intro-list').innerHTML = level.items.map(function(it){ return '<li>'+it+'</li>'; }).join('');
+  }
+
+  function setGuild(key){
+    if(!GUILDS[key]) return;
+    state.guildKey = key;
+    document.body.setAttribute('data-guild', key);
+    updateGuildBadges();
+    renderLevelIntro();
+    showScreen('level-intro');
+  }
+
+  function updateGuildBadges(){
+    const info = state.guildKey ? GUILDS[state.guildKey] : null;
+    [{badge:'hud-guild-badge', name:'hud-guild-name'}, {badge:'final-guild-badge', name:'final-guild-name'}].forEach(function(ref){
+      const badge = $(ref.badge), nameEl = $(ref.name);
+      if(!badge) return;
+      if(!info){ badge.hidden = true; return; }
+      badge.hidden = false;
+      badge.querySelector('.dot').style.background = info.dot;
+      nameEl.textContent = info.label;
+    });
+  }
+
+  /* ============ Rendirse ============ */
+  function surrender(){
+    const all = [].concat.apply([], state.roundScores);
+    const partial = all.length ? Math.round(all.reduce(function(a,b){return a+b;},0)/all.length) : 0;
+    const levelReached = state.levelIdx+1;
+    $('surrender-progress').textContent = all.length
+      ? ('Llegó hasta el hechizo '+levelReached+' de '+LEVELS.length+', con un trazo promedio de '+partial+'/100.')
+      : ('Se retiró antes de completar ninguna ronda del hechizo '+levelReached+'.');
+    $('surrender-save-status').textContent = '';
+    showScreen('surrender');
+    saveScoreToRanking(state.playerName, partial, true, levelReached);
+  }
+
+  /* ============ Ranking (Firebase Firestore) ============ */
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDDvhEGLv0SSjAqazFuETjCz1GfOK5LsfU",
+    authDomain: "grimorio-matematico.firebaseapp.com",
+    databaseURL: "https://grimorio-matematico-default-rtdb.firebaseio.com",
+    projectId: "grimorio-matematico",
+    storageBucket: "grimorio-matematico.firebasestorage.app",
+    messagingSenderId: "888245631748",
+    appId: "1:888245631748:web:35ed43c12b37d561d6ae51",
+    measurementId: "G-Z76NBWCLST"
+  };
+  async function initDb(){
+    try{
+      if(window.firebase && typeof firebase.initializeApp==='function'){
+        if(!firebase.apps || firebase.apps.length===0){
+          firebase.initializeApp(FIREBASE_CONFIG);
+        }
+        state.dbApi = firebase.firestore();
+      } else {
+        state.dbApi = null;
+      }
+    }catch(e){ state.dbApi = null; }
+  }
+  async function saveScoreToRanking(name, score, gaveUp, levelReached){
+    const statusEl = gaveUp ? $('surrender-save-status') : $('final-save-status');
+    if(!state.dbApi){ statusEl.textContent='(El salón de los magos no está disponible en este momento.)'; return; }
+    statusEl.textContent = gaveUp ? 'Registrando tu retirada en el gremio...' : 'Grabando tu hazaña en el grimorio...';
+    try{
+      await state.dbApi.collection('ranking').add({
+        name: name||'Aprendiz', score: score, gaveUp: !!gaveUp,
+        levelReached: levelReached||LEVELS.length, guild: state.guildKey||null, ts: Date.now()
+      });
+      statusEl.textContent = gaveUp ? 'Quedaste registrado entre los magos del gremio.' : '¡Tu hazaña quedó registrada en el Salón de los Magos!';
+    }catch(e){ statusEl.textContent = 'No se pudo grabar tu resultado esta vez.'; }
+  }
+  async function loadTopRanking(){
+    const listEl = $('ranking-list'), statusEl = $('ranking-status');
+    listEl.innerHTML = '';
+    if(!state.dbApi){ statusEl.textContent='El ranking no está disponible en este momento.'; return; }
+    statusEl.textContent = 'Consultando el grimorio...';
+    try{
+      /* Se ordena solo por 'score' (índice de un solo campo, automático en
+         Firestore) y se filtra 'gaveUp' del lado del cliente, para no
+         depender de un índice compuesto que aún no exista en el proyecto. */
+      const snap = await state.dbApi.collection('ranking').orderBy('score','desc').limit(50).get();
+      const docs = snap.docs.filter(function(doc){ return doc.data().gaveUp!==true; }).slice(0,10);
+      if(docs.length===0){ statusEl.textContent='Aún nadie ha completado los tres hechizos. ¡Sé el primero!'; return; }
+      statusEl.textContent = '';
+      docs.forEach(function(doc,i){
+        const d = doc.data();
+        const li = document.createElement('li');
+        li.className = 'ranking-item'+(i<3?' top':'');
+        const dotColor = (d.guild && GUILDS[d.guild]) ? GUILDS[d.guild].dot : 'var(--border-strong)';
+        li.innerHTML = '<span class="rank-pos">'+(i+1)+'</span><span class="rank-guild-dot" style="background:'+dotColor+'"></span><span class="rank-name">'+escapeHtml(String(d.name||'Aprendiz'))+'</span><span class="rank-score">'+Number(d.score||0)+'</span>';
+        listEl.appendChild(li);
+      });
+    }catch(e){ statusEl.textContent='No se pudo cargar el ranking en este momento.'; }
+  }
+  async function loadGuild(){
+    const listEl = $('guild-list'), statusEl = $('guild-status');
+    listEl.innerHTML = '';
+    if(!state.dbApi){ statusEl.textContent='El gremio no está disponible en este momento.'; return; }
+    statusEl.textContent = 'Consultando el gremio...';
+    try{
+      const snap = await state.dbApi.collection('ranking').orderBy('ts','desc').limit(50).get();
+      const docs = snap.docs.filter(function(doc){ return doc.data().gaveUp===true; }).slice(0,10);
+      if(docs.length===0){ statusEl.textContent='Nadie se ha rendido todavía... ¡buena señal!'; return; }
+      statusEl.textContent = '';
+      docs.forEach(function(doc){
+        const d = doc.data();
+        const li = document.createElement('li');
+        li.className = 'ranking-item guild';
+        const dotColor = (d.guild && GUILDS[d.guild]) ? GUILDS[d.guild].dot : 'var(--border-strong)';
+        li.innerHTML = '<span class="rank-pos">🍺</span><span class="rank-guild-dot" style="background:'+dotColor+'"></span><span class="rank-name">'+escapeHtml(String(d.name||'Aprendiz'))+'</span><span class="rank-tag">hechizo '+Number(d.levelReached||1)+'</span>';
+        listEl.appendChild(li);
+      });
+    }catch(e){ statusEl.textContent='No se pudo cargar el gremio en este momento.'; }
+  }
+  function loadRanking(){ loadTopRanking(); loadGuild(); }
+
+  /* ============ Modo de trazo ============ */
+  function setMode(mode){
+    if(state.checked) return;
+    state.drawMode = mode;
+    $('btn-mode-freehand').classList.toggle('active', mode==='freehand');
+    $('btn-mode-points').classList.toggle('active', mode==='points');
+    $('btn-undo-point').hidden = !(mode==='points' && state.points.length>0);
+    $('infinity-toggle').hidden = mode!=='points';
+    $('btn-new-segment').hidden = mode!=='points';
+    state.columnMap.clear();
+    state.strokeBreaks.clear();
+    state.points = [];
+    state.currentSeg = 0;
+    state.extendLeft = false; state.extendRight = false;
+    $('btn-extend-left').classList.remove('active');
+    $('btn-extend-right').classList.remove('active');
+    state.isDrawing = false;
+    canvasHint.hidden = false;
+    canvasHint.textContent = mode==='points'
+      ? 'Toca para colocar puntos (toca un punto para quitarlo)'
+      : 'Traza la función con tu dedo o el mouse';
+    redrawRound(false);
+  }
+  function undoPoint(){
+    if(state.checked) return;
+    state.points.pop();
+    rebuildColumnMapFromPoints();
+    applyInfiniteExtensions();
+    $('btn-undo-point').hidden = state.points.length===0;
+    redrawRound(false);
+  }
+  function toggleExtend(side){
+    if(state.checked) return;
+    if(side==='left'){ state.extendLeft = !state.extendLeft; $('btn-extend-left').classList.toggle('active', state.extendLeft); }
+    else { state.extendRight = !state.extendRight; $('btn-extend-right').classList.toggle('active', state.extendRight); }
+    rebuildColumnMapFromPoints();
+    applyInfiniteExtensions();
+    redrawRound(false);
+  }
+
+  /* ============ Cableado de eventos ============ */
+  function init(){
+    $('btn-start').addEventListener('click', function(){ showScreen('name'); $('input-name').focus(); });
+    $('btn-view-ranking').addEventListener('click', function(){ showScreen('ranking'); loadRanking(); });
+    $('btn-ranking-back').addEventListener('click', function(){ showScreen('menu'); });
+    $('btn-see-ranking').addEventListener('click', function(){ showScreen('ranking'); loadRanking(); });
+    $('btn-surrender-ranking').addEventListener('click', function(){ showScreen('ranking'); loadRanking(); });
+    $('btn-surrender-menu').addEventListener('click', function(){ showScreen('menu'); });
+    $('btn-mode-freehand').addEventListener('click', function(){ setMode('freehand'); });
+    $('btn-mode-points').addEventListener('click', function(){ setMode('points'); });
+    $('btn-undo-point').addEventListener('click', undoPoint);
+    $('btn-surrender').addEventListener('click', surrender);
+
+    $('form-name').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = $('input-name').value.trim().slice(0,24) || 'Aprendiz';
+      state.playerName = name;
+      state.levelIdx = 0;
+      state.roundScores = [[],[],[]];
+      showScreen('guild');
+    });
+
+    document.querySelectorAll('.guild-option').forEach(function(btn){
+      btn.addEventListener('click', function(){ setGuild(btn.getAttribute('data-guild')); });
+    });
+
+    $('btn-level-start').addEventListener('click', beginLevel);
+    $('btn-clear').addEventListener('click', function(){
+      state.columnMap.clear();
+      state.strokeBreaks.clear();
+      state.points = [];
+      state.currentSeg = 0;
+      state.extendLeft = false; state.extendRight = false;
+      $('btn-extend-left').classList.remove('active');
+      $('btn-extend-right').classList.remove('active');
+      $('btn-undo-point').hidden = true;
+      redrawRound(false);
+      canvasHint.hidden=false;
+      canvasHint.textContent = state.drawMode==='points' ? 'Toca para colocar puntos (toca un punto para quitarlo)' : 'Traza la función con tu dedo o el mouse';
+    });
+    $('btn-new-segment').addEventListener('click', function(){
+      if(state.checked) return;
+      state.currentSeg++;
+      canvasHint.hidden = false;
+      canvasHint.textContent = '✂️ El siguiente punto iniciará un trazo nuevo, sin unirse al anterior';
+    });
+    $('btn-extend-left').addEventListener('click', function(){ toggleExtend('left'); });
+    $('btn-extend-right').addEventListener('click', function(){ toggleExtend('right'); });
+    $('btn-zoom-in').addEventListener('click', function(){ zoomBy(1.25); });
+    $('btn-zoom-out').addEventListener('click', function(){ zoomBy(0.8); });
+    $('zoom-label').addEventListener('click', resetZoom);
+    $('btn-check').addEventListener('click', checkAnswer);
+    $('btn-retry').addEventListener('click', retryRound);
+    $('btn-next').addEventListener('click', nextRound);
+    $('btn-level-continue').addEventListener('click', continueAfterLevel);
+    $('btn-play-again').addEventListener('click', function(){ showScreen('menu'); });
+
+    initDb();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
